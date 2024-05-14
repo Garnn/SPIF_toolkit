@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 import re
 import sys
 deletionList=["M140","M190","M104","M109","G92","M107"]
