@@ -2,6 +2,11 @@
 import re
 import sys
 deletionList=["M140","M190","M104","M109","G92","M107"]
+
+if len(sys.argv) != 3:
+    print('Usage: ' + sys.argv[0] + ' <gcode file> <height>')
+    sys.exit(1)
+
 with open(sys.argv[1],"r") as gcode_file:
     gcode : str = gcode_file.read()
 height : float = float(sys.argv[2])
