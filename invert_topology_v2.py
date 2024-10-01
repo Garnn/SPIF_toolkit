@@ -14,7 +14,7 @@ gcode = gcode.splitlines()
 moves = [x for x in gcode if ("G1" or "G2" or "G0") in x][5:-4]
 moves = [re.sub(r"G.","G0",x) for x in moves]
 moves = [re.sub(r" E-?\d+\.?\d*","",x) for x in moves]
-moves = [re.sub(r"Z(-?\d+\.?\d*)", lambda x: "Z"+str(height-float(x.group(1))),y) for y in moves]
+#moves = [re.sub(r"Z(-?\d+\.?\d*)", lambda x: "Z"+str(height-float(x.group(1))),y) for y in moves]
 moves = [re.sub(r" F-?\d+\.?\d*","",x) for x in moves]
 
 #Tutaj preambuła
@@ -44,18 +44,23 @@ M204 S2000 ; Printing and travel speed in mm/s/s
 #Tutaj buła
 
 final_gcode = []
+Zs = []
 for line in moves:
     if "Z" not in line:
         final_gcode.append(line)
     else:
         parts = line.split(" ")
+        Zs.append(float(parts[3].strip("Z")))
         final_gcode.append(" ".join(parts[:3]))
         final_gcode.append("G91")
-        final_gcode.append(parts[0]+" "+parts[3])
-        final_gcode.append("G90")
+        try:
+            final_gcode.append(parts[0]+" Z-"+str(abs(Zs[-1]-Zs[-2])))
+            final_gcode.append("G90")
+        except:
+            final_gcode.pop()
 
 #print(str(final_gcode).replace(',','\n').replace("'","").strip("[]"))
-[print(x) for x in final_gcode]
+[print(x) for x in final_gcode if x!="G0"]
 
 #Tutaj postambuła
 print("""
