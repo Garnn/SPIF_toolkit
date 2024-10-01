@@ -42,7 +42,20 @@ M204 S2000 ; Printing and travel speed in mm/s/s
 """)
 
 #Tutaj buła
-#print(str(moves).replace(',','\n').replace("'","").replace(" G0","G0").strip("[]"))
+
+final_gcode = []
+for line in moves:
+    if "Z" not in line:
+        final_gcode.append(line)
+    else:
+        parts = line.split(" ")
+        final_gcode.append(" ".join(parts[:3]))
+        final_gcode.append("G91")
+        final_gcode.append(parts[0]+" "+parts[3])
+        final_gcode.append("G90")
+
+#print(str(final_gcode).replace(',','\n').replace("'","").strip("[]"))
+[print(x) for x in final_gcode]
 
 #Tutaj postambuła
 print("""
