@@ -16,7 +16,8 @@ moves = [re.sub(r"G.","G0",x) for x in moves]
 moves = [re.sub(r" E-?\d+\.?\d*","",x) for x in moves]
 moves = [re.sub(r"Z(-?\d+\.?\d*)", lambda x: "Z"+str(height-float(x.group(1))),y) for y in moves]
 moves = [re.sub(r" F-?\d+\.?\d*","",x) for x in moves]
-#moves = [x.strip() for x in moves]
+
+#Tutaj preambuła
 print("""
 M413 S0 ; Disable power loss recovery
 M107 ; Fan off
@@ -40,8 +41,10 @@ M204 S2000 ; Printing and travel speed in mm/s/s
 
 """)
 
-print(str(moves).replace(',','\n').replace("'","").replace(" G0","G0").strip("[]"))
+#Tutaj buła
+#print(str(moves).replace(',','\n').replace("'","").replace(" G0","G0").strip("[]"))
 
+#Tutaj postambuła
 print("""
 ; END OF PRINT
 
