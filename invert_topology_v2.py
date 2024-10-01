@@ -11,8 +11,8 @@ with open(sys.argv[1],"r") as gcode_file:
 height : float = float(sys.argv[2])
 
 gcode = gcode.splitlines()
-moves = [x for x in gcode if ("G1" or "G2" or "G0") in x][:-4]
-moves = [re.sub(r"G.","G2",x) for x in moves]
+moves = [x for x in gcode if ("G1" or "G2" or "G0") in x][5:-4]
+moves = [re.sub(r"G.","G0",x) for x in moves]
 moves = [re.sub(r" E-?\d+\.?\d*","",x) for x in moves]
 moves = [re.sub(r"Z(-?\d+\.?\d*)", lambda x: "Z"+str(height-float(x.group(1))),y) for y in moves]
 moves = [re.sub(r" F-?\d+\.?\d*","",x) for x in moves]
@@ -40,7 +40,7 @@ M204 S2000 ; Printing and travel speed in mm/s/s
 
 """)
 
-print(str(moves).replace(',','\n').replace("'","").replace(" G2","G2").strip("[]"))
+print(str(moves).replace(',','\n').replace("'","").replace(" G0","G0").strip("[]"))
 
 print("""
 ; END OF PRINT
